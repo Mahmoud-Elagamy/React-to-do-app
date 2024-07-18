@@ -1,5 +1,5 @@
 import { CirclePlus } from "lucide-react";
-import { FormEvent, useState, useRef, useEffect } from "react";
+import { FormEvent, useState, useRef } from "react";
 
 type Task = {
   id: number;
@@ -35,16 +35,7 @@ const AddTasks = ({ tasks, saveAndUpdate }: AddTasksProps) => {
     setAddTask("");
   };
 
-  // Set focus on the input if the tasks length is zero after the user delete all tasks.
-  useEffect(() => {
-    if (!tasks.length) {
-      setTimeout(() => {
-        if (inputRef.current) {
-          inputRef.current.focus();
-        }
-      }, 100);
-    }
-  }, [tasks.length]);
+  if (!tasks.length) inputRef.current?.focus();
 
   return (
     <form

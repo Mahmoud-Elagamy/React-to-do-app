@@ -7,7 +7,6 @@ import AddTasks from "./components/AddTasks";
 import TasksList from "./components/TasksList";
 import FilterTasks from "./components/FilterTasks";
 import EditModal from "./components/EditModal";
-// import Footer from "./components/Footer";
 
 type Task = {
   id: number;
@@ -18,40 +17,22 @@ type Task = {
 type Filter = "All" | "Active" | "Completed";
 
 const App = () => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (localStorage.getItem("theme") === "dark") {
-      document.documentElement.classList.add("dark");
-      setIsDarkMode(true);
-      setIsLoading(false);
-    } else if (localStorage.getItem("theme") === "light") {
-      setIsLoading(false);
-    } else if (
-      matchMedia("(prefers-color-scheme: dark)").matches &&
-      localStorage.getItem("theme") !== "light"
-    ) {
-      document.documentElement.classList.add("dark");
-      setIsDarkMode(true);
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
-
   const [tasks, setTasks] = useState<Task[]>(() => {
     const storedTasks = localStorage.getItem("tasks");
     return storedTasks ? JSON.parse(storedTasks) : [];
   });
 
-  const [filteredTasks, setFilteredTasks] = useState<Task[] | []>(tasks || []);
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks || []);
 
   const [currentFilter, setCurrentFilter] = useState<Filter>("All");
 
   const [editedTask, setEditedTask] = useState<Task | null>(null);
 
   const [isEditing, setIsEditing] = useState(false);
+
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const filterTasks = (filter: Filter): Task[] => {
     switch (filter) {
@@ -118,6 +99,19 @@ const App = () => {
     setIsEditing(true);
     setEditedTask(task);
   };
+
+  useEffect(() => {
+    const isDarkTheme = matchMedia("(prefers-color-scheme: dark)").matches;
+    const storedTheme = localStorage.getItem("theme");
+
+    if (storedTheme === "dark" || (isDarkTheme && storedTheme !== "light")) {
+      document.documentElement.classList.add("dark");
+      setIsDarkMode(true);
+      setIsLoading(false);
+    }
+
+    setIsLoading(false);
+  }, []);
 
   return (
     <>
