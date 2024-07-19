@@ -1,5 +1,5 @@
 import { CirclePlus } from "lucide-react";
-import { FormEvent, useState, useRef } from "react";
+import { FormEvent, useState, useRef, useEffect } from "react";
 
 type Task = {
   id: number;
@@ -9,7 +9,6 @@ type Task = {
 
 type AddTasksProps = {
   tasks: Task[];
-
   saveAndUpdate: (key: string, value: Task[], updatedTasks: Task[]) => void;
 };
 
@@ -35,7 +34,15 @@ const AddTasks = ({ tasks, saveAndUpdate }: AddTasksProps) => {
     setAddTask("");
   };
 
-  if (!tasks.length) inputRef.current?.focus();
+  useEffect(() => {
+    if (!tasks.length) {
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+
+      return () => clearTimeout(timer); // Clean up the timeout if the component unmounts
+    }
+  }, [tasks.length]);
 
   return (
     <form
