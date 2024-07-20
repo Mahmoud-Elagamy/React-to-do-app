@@ -46,7 +46,7 @@ const AddTasks = ({ tasks, saveAndUpdate }: AddTasksProps) => {
 
   return (
     <form
-      className="flex items-center p-3 mb-4 shadow-lg bg-slate-50 dark:bg-[#25273D] rounded-md transition hover:ring-1 focus-within:ring-1 ring-slate-900 dark:hover:ring-1 dark:focus-within:ring-1 dark:ring-blue-600"
+      className="flex items-center p-3 pl-2 mb-4 shadow-lg bg-slate-50 dark:bg-[#25273D] rounded-md transition hover:ring-1 focus-within:ring-1 ring-slate-900 dark:hover:ring-1 dark:focus-within:ring-1 dark:ring-blue-600"
       onSubmit={handleSubmit}
     >
       <label className="sr-only" htmlFor="entry-item">
@@ -55,7 +55,7 @@ const AddTasks = ({ tasks, saveAndUpdate }: AddTasksProps) => {
       <input
         ref={inputRef}
         id="entry-item"
-        className="w-full bg-transparent rounded-[5px] dark:text-slate-50  caret-bright-blue tracking-wide transition  outline-none"
+        className="w-full bg-transparent rounded-[5px] indent-1 dark:text-slate-50  caret-bright-blue tracking-wide transition  outline-none"
         type="text"
         placeholder="Create a new todo..."
         required

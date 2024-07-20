@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Custom Components
 import BackgroundImage from "./components/BackgroundImage";
@@ -33,6 +33,8 @@ const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const documentElementRef = useRef(document.documentElement);
 
   const filterTasks = (filter: Filter): Task[] => {
     switch (filter) {
@@ -105,7 +107,7 @@ const App = () => {
     const storedTheme = localStorage.getItem("theme");
 
     if (storedTheme === "dark" || (isDarkTheme && storedTheme !== "light")) {
-      document.documentElement.classList.add("dark");
+      documentElementRef.current?.classList.add("dark");
       setIsDarkMode(true);
       setIsLoading(false);
     }
@@ -115,7 +117,6 @@ const App = () => {
 
   return (
     <>
-      {/* To prevent dark theme flickering. */}
       {isLoading ? (
         <h1 className="text-3xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           Loading...

@@ -44,11 +44,11 @@ const EditModal = ({
 
   useEffect(() => {
     if (isEditing) {
-      setTimeout(() => {
-        if (inputRef.current) {
-          inputRef.current.focus();
-        }
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
       }, 100);
+
+      return () => clearTimeout(timer); // Clean up the timeout if the component unmounts
     }
   }, [isEditing]);
 
@@ -97,7 +97,7 @@ const EditModal = ({
         </button>
         <h2 className="dark:text-white mb-2">Update Task:</h2>
         <form
-          className="flex items-center p-2 bg-white dark:bg-[#25273D] shadow-lg rounded-md transition hover:ring-1 focus-within:ring-1 ring-blue-600 dark:hover:ring-1 dark:focus-within:ring-1 dark:ring-blue-600"
+          className="flex items-center p-2 pl-1 bg-white dark:bg-[#25273D] shadow-lg rounded-md transition hover:ring-1 focus-within:ring-1 ring-blue-600 dark:hover:ring-1 dark:focus-within:ring-1 dark:ring-blue-600"
           onSubmit={handleSubmit}
         >
           <label className="sr-only" htmlFor="update-task">
@@ -106,7 +106,7 @@ const EditModal = ({
           <input
             ref={inputRef}
             id="update-task"
-            className="w-full rounded-[5px] bg-transparent dark:text-slate-50  caret-bright-blue tracking-wide transition  outline-none"
+            className="w-full rounded-[5px] bg-transparent indent-1 dark:text-slate-50  caret-bright-blue tracking-wide transition  outline-none"
             type="text"
             placeholder="Update Task"
             required
