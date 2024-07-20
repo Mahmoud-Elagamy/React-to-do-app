@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 // Custom Components
 import BackgroundImage from "./components/BackgroundImage";
@@ -34,8 +34,6 @@ const App = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const documentElementRef = useRef(document.documentElement);
-
   const filterTasks = (filter: Filter): Task[] => {
     switch (filter) {
       case "All":
@@ -60,7 +58,7 @@ const App = () => {
     localStorage.setItem("theme", isDarkMode ? "light" : "dark");
   };
 
-  // Save in Local Storage and Update the state
+  // Helper Function: Save in Local Storage and Update Tasks stats.
   const saveAndUpdate = (key: string, value: Task[], updatedTasks: Task[]) => {
     localStorage.setItem(key, JSON.stringify(value));
     setTasks(updatedTasks);
@@ -102,17 +100,20 @@ const App = () => {
     setEditedTask(task);
   };
 
-  useEffect(() => {
-    const isDarkTheme = matchMedia("(prefers-color-scheme: dark)").matches;
-    const storedTheme = localStorage.getItem("theme");
+  useLayoutEffect(() => {
+    try {
+      const isDarkTheme = matchMedia("(prefers-color-scheme: dark)").matches;
+      const storedTheme = localStorage.getItem("theme");
 
-    if (storedTheme === "dark" || (isDarkTheme && storedTheme !== "light")) {
-      documentElementRef.current?.classList.add("dark");
-      setIsDarkMode(true);
+      if (storedTheme === "dark" || (isDarkTheme && storedTheme !== "light")) {
+        document.documentElement.classList.add("dark");
+        setIsDarkMode(true);
+      }
+    } catch (error) {
+      console.error("Error applying theme:", error);
+    } finally {
       setIsLoading(false);
     }
-
-    setIsLoading(false);
   }, []);
 
   return (
@@ -154,8 +155,6 @@ const App = () => {
               currentFilter={currentFilter}
               setCurrentFilter={setCurrentFilter}
             />
-
-            {/* <Footer /> */}
           </section>
         </main>
       )}
