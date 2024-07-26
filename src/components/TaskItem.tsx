@@ -1,8 +1,9 @@
-import { Trash, Pencil } from "lucide-react";
-
-import { motion } from "framer-motion";
+import { Trash, SquarePen } from "lucide-react";
 
 import audio from "../assets/audio/ting-sound-197759.mp3";
+
+// Types
+import { Motion } from "./TasksList";
 
 type Task = {
   id: number;
@@ -15,6 +16,7 @@ type TaskItemProps = {
   handleCheck: (id: number) => void;
   handleDelete: (id: number) => void;
   enterEditMode: (task: Task) => void;
+  motion: Motion;
 };
 
 const TaskItem = ({
@@ -22,6 +24,7 @@ const TaskItem = ({
   handleCheck,
   handleDelete,
   enterEditMode,
+  motion,
 }: TaskItemProps) => {
   const checkMarkSoundEffect = new Audio(audio);
 
@@ -71,7 +74,7 @@ const TaskItem = ({
           aria-label={`Edit ${task.item} Task`}
           onClick={() => enterEditMode(task)}
         >
-          <Pencil className="transition size-[14px]  hover:text-blue-600 focus:text-blue-600 md:size-4" />
+          <SquarePen className="transition size-[14px]  hover:text-blue-600 focus:text-blue-600 md:size-4" />
         </button>
         <button
           className="opacity-0 group-hover/item:opacity-100 focus:opacity-100"

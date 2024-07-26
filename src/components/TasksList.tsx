@@ -7,6 +7,8 @@ type Task = {
   checked: boolean;
 };
 
+export type Motion = typeof motion;
+
 type TasksListProps = {
   filteredTasks: Task[];
   tasks: Task[];
@@ -54,6 +56,7 @@ const TasksList = ({
         handleCheck={handleCheck}
         handleDelete={handleDelete}
         enterEditMode={enterEditMode}
+        motion={motion}
       />
     ));
 
