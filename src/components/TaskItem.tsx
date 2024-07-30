@@ -3,20 +3,14 @@ import { Trash, SquarePen } from "lucide-react";
 import audio from "../assets/audio/ting-sound-197759.mp3";
 
 // Types
-import { Motion } from "./TasksList";
-
-type Task = {
-  id: number;
-  item: string;
-  checked: boolean;
-};
-
+import { Task } from "../App";
+import { ReorderType } from "./TasksList";
 type TaskItemProps = {
   task: Task;
   handleCheck: (id: number) => void;
   handleDelete: (id: number) => void;
   enterEditMode: (task: Task) => void;
-  motion: Motion;
+  reorder: ReorderType;
 };
 
 const TaskItem = ({
@@ -24,17 +18,19 @@ const TaskItem = ({
   handleCheck,
   handleDelete,
   enterEditMode,
-  motion,
+  reorder,
 }: TaskItemProps) => {
   const checkMarkSoundEffect = new Audio(audio);
 
   return (
-    <motion.li
+    <reorder.Item
+      value={task}
+      whileDrag={{ scale: 0.9 }}
       layout
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      className="group/item relative z-10 *:transition hover:bg-slate-50 has-[:checked]:bg-slate-100 dark:hover:bg-gray-900/20 has-[:checked]:dark:bg-gray-900/20"
+      className="group/item relative important-z *:transition cursor-grab  hover:bg-slate-50 has-[:checked]:bg-slate-100 dark:hover:bg-gray-900/20 has-[:checked]:dark:bg-gray-900/20"
     >
       <label
         htmlFor={task.id.toString()}
@@ -69,23 +65,23 @@ const TaskItem = ({
       </svg>
       <div className="flex items-center gap-2 *:transition">
         <button
-          className="opacity-0 group-hover/item:opacity-100 focus:opacity-100"
+          className="opacity-0 group-hover/item:opacity-100 focus:opacity-100 "
           title="Edit"
           aria-label={`Edit ${task.item} Task`}
           onClick={() => enterEditMode(task)}
         >
-          <SquarePen className="transition size-[14px]  hover:text-blue-600 focus:text-blue-600 md:size-4" />
+          <SquarePen className="transition size-[14px]  hover:text-blue-600 focus:text-blue-600 md:size-5" />
         </button>
         <button
-          className="opacity-0 group-hover/item:opacity-100 focus:opacity-100"
+          className="opacity-0 group-hover/item:opacity-100 focus:opacity-100 "
           title="Clear"
           aria-label={`Delete ${task.item} Task`}
           onClick={() => handleDelete(task.id)}
         >
-          <Trash className="transition size-[14px]  hover:text-red-500 focus:text-red-500 md:size-4" />
+          <Trash className="transition size-[14px]  hover:text-red-500 focus:text-red-500 md:size-5" />
         </button>
       </div>
-    </motion.li>
+    </reorder.Item>
   );
 };
 export default TaskItem;

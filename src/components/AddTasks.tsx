@@ -1,18 +1,17 @@
-import { CirclePlus } from "lucide-react";
 import { FormEvent, useState, useRef, useEffect } from "react";
+import { CirclePlus } from "lucide-react";
 
-type Task = {
-  id: number;
-  item: string;
-  checked: boolean;
-};
+// Utils
+import syncTasksWithLocalStorage from "./utils/syncTasksWithLocalStorage";
 
+//  Types
+import { Task } from "../App";
 type AddTasksProps = {
   tasks: Task[];
-  saveAndUpdate: (key: string, value: Task[], updatedTasks: Task[]) => void;
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 };
 
-const AddTasks = ({ tasks, saveAndUpdate }: AddTasksProps) => {
+const AddTasks = ({ tasks, setTasks }: AddTasksProps) => {
   const [addTask, setAddTask] = useState("");
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -25,11 +24,12 @@ const AddTasks = ({ tasks, saveAndUpdate }: AddTasksProps) => {
       checked: false,
     };
     const listTasks = [...tasks, addedTask];
-    saveAndUpdate("tasks", listTasks, listTasks);
+    syncTasksWithLocalStorage("tasks", listTasks, setTasks, listTasks);
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (!addTask.trim()) return;
     addNewItem(addTask);
     setAddTask("");
   };
@@ -46,7 +46,7 @@ const AddTasks = ({ tasks, saveAndUpdate }: AddTasksProps) => {
 
   return (
     <form
-      className="flex items-center p-3 pl-2 mb-4 shadow-lg bg-slate-50 dark:bg-[#25273D] rounded-md transition hover:ring-1 focus-within:ring-1 ring-slate-900 dark:hover:ring-1 dark:focus-within:ring-1 dark:ring-blue-600"
+      className="flex items-center p-3 pl-2 mb-4 shadow-lg  bg-slate-50 dark:bg-[#25273D] rounded-md transition duration-300 ease-in-out hover:ring-1 focus-within:ring-1 ring-slate-900 dark:hover:ring-1 dark:focus-within:ring-1 dark:ring-blue-600"
       onSubmit={handleSubmit}
     >
       <label className="sr-only" htmlFor="entry-item">
@@ -55,7 +55,7 @@ const AddTasks = ({ tasks, saveAndUpdate }: AddTasksProps) => {
       <input
         ref={inputRef}
         id="entry-item"
-        className="w-full bg-transparent rounded-[5px] indent-1 dark:text-slate-50  caret-bright-blue tracking-wide transition  outline-none"
+        className="w-full bg-transparent rounded-[5px] indent-1 dark:text-slate-50 caret-bright-blue tracking-wide transition duration-300 ease-in-out outline-none"
         type="text"
         placeholder="Create a new todo..."
         required
