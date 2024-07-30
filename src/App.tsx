@@ -7,31 +7,29 @@ import AddTasks from "./components/AddTasks";
 import TasksList from "./components/TasksList";
 import FilterTasks from "./components/FilterTasks";
 import EditModal from "./components/EditModal";
+import LoadingIndicator from "./components/LoadingIndicator";
 
-type Task = {
+// Utils
+import applyTheme from "./components/utils/applyTheme";
+import syncTasksWithLocalStorage from "./components/utils/syncTasksWithLocalStorage";
+
+// Types
+export type Task = {
   id: number;
   item: string;
   checked: boolean;
 };
-
-type Filter = "All" | "Active" | "Completed";
+export type Filter = "All" | "Active" | "Completed";
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>(() => {
     const storedTasks = localStorage.getItem("tasks");
     return storedTasks ? JSON.parse(storedTasks) : [];
   });
-
-  const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks || []);
-
   const [currentFilter, setCurrentFilter] = useState<Filter>("All");
-
-  const [editedTask, setEditedTask] = useState<Task | null>(null);
-
   const [isEditing, setIsEditing] = useState(false);
-
+  const [editedTask, setEditedTask] = useState<Task | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
-
   const [isLoading, setIsLoading] = useState(true);
 
   const filterTasks = (filter: Filter): Task[] => {
@@ -49,7 +47,6 @@ const App = () => {
 
   const handleFilterChange = (filter: Filter) => {
     setCurrentFilter(filter);
-    setFilteredTasks(filterTasks(filter));
   };
 
   const toggleTheme = () => {
@@ -58,35 +55,25 @@ const App = () => {
     localStorage.setItem("theme", isDarkMode ? "light" : "dark");
   };
 
-  // Helper Function: Save in Local Storage and Update Tasks stats.
-  const saveAndUpdate = (key: string, value: Task[], updatedTasks: Task[]) => {
-    localStorage.setItem(key, JSON.stringify(value));
-    setTasks(updatedTasks);
-    setFilteredTasks(updatedTasks);
-  };
-
   const handleCheck = (id: number) => {
-    const listItems = filteredTasks.map((task: Task) => {
+    const listItems = tasks.map((task: Task) => {
       return task.id === id ? { ...task, checked: !task.checked } : task;
     });
-
-    saveAndUpdate("tasks", listItems, listItems);
+    syncTasksWithLocalStorage("tasks", listItems, setTasks, listItems);
   };
 
   const handleDelete = (id: number) => {
-    const listItems = filteredTasks.filter((task) => task.id !== id);
-    saveAndUpdate("tasks", listItems, listItems);
+    const listItems = tasks.filter((task) => task.id !== id);
+    syncTasksWithLocalStorage("tasks", listItems, setTasks, listItems);
   };
 
   const handleUpdate = (id: number | undefined, newText: string) => {
-    const listItems = filteredTasks.map((task) => {
+    const listItems = tasks.map((task) => {
       return task.id === id ? { ...task, item: newText } : task;
     });
-
-    saveAndUpdate("tasks", listItems, listItems);
-
+    syncTasksWithLocalStorage("tasks", listItems, setTasks, listItems);
+    setTasks(listItems);
     closeEditModal();
-
     setEditedTask(null);
   };
 
@@ -101,27 +88,13 @@ const App = () => {
   };
 
   useLayoutEffect(() => {
-    try {
-      const isDarkTheme = matchMedia("(prefers-color-scheme: dark)").matches;
-      const storedTheme = localStorage.getItem("theme");
-
-      if (storedTheme === "dark" || (isDarkTheme && storedTheme !== "light")) {
-        document.documentElement.classList.add("dark");
-        setIsDarkMode(true);
-      }
-    } catch (error) {
-      console.error("Error applying theme:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    applyTheme(setIsDarkMode, setIsLoading);
   }, []);
 
   return (
     <>
       {isLoading ? (
-        <h1 className="text-3xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          Loading...
-        </h1>
+        <LoadingIndicator />
       ) : (
         <main className="container max-w-[500px] text-sm md:text-lg">
           <BackgroundImage isDarkMode={isDarkMode} />
@@ -131,7 +104,7 @@ const App = () => {
 
             <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
 
-            <AddTasks saveAndUpdate={saveAndUpdate} tasks={filteredTasks} />
+            <AddTasks tasks={tasks} setTasks={setTasks} />
 
             <EditModal
               editedTask={editedTask}
@@ -142,11 +115,10 @@ const App = () => {
             />
 
             <TasksList
-              tasks={tasks}
-              filteredTasks={filteredTasks}
+              tasks={filterTasks(currentFilter)}
+              setTasks={setTasks}
               handleCheck={handleCheck}
               handleDelete={handleDelete}
-              saveAndUpdate={saveAndUpdate}
               enterEditMode={enterEditMode}
             />
 

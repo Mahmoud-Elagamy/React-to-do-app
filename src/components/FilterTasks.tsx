@@ -1,5 +1,5 @@
-type Filter = "All" | "Active" | "Completed";
-
+// Types
+import { Filter } from "../App";
 type FilterTasksProps = {
   handleFilterChange: (filter: Filter) => void;
   currentFilter: Filter;
