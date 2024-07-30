@@ -59,7 +59,12 @@ const App = () => {
     const listItems = tasks.map((task: Task) => {
       return task.id === id ? { ...task, checked: !task.checked } : task;
     });
-    syncTasksWithLocalStorage("tasks", listItems, setTasks, listItems);
+    const sortedTasks = listItems.sort((a, b) => {
+      if (a.checked && !b.checked) return 1;
+      if (!a.checked && b.checked) return -1;
+      return b.id - a.id;
+    });
+    syncTasksWithLocalStorage("tasks", sortedTasks, setTasks, sortedTasks);
   };
 
   const handleDelete = (id: number) => {

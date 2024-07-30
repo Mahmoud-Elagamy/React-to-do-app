@@ -47,15 +47,6 @@ const TasksList = ({
     syncTasksWithLocalStorage("tasks", newOrder, setTasks, newOrder);
   };
 
-  // const sortedTasks = tasks.sort((a, b) => {
-  //   // If a task is completed, it should go to the bottom.
-  //   if (a.checked && !b.checked) return 1;
-  //   if (!a.checked && b.checked) return -1;
-
-  //   // If both tasks are completed or both are not completed, sort by ID.
-  //   return b.id - a.id;
-  // });
-
   const listItems = tasks.map((task: Task) => (
     <TaskItem
       key={task.id}

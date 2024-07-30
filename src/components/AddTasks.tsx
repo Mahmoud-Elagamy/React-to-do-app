@@ -23,7 +23,7 @@ const AddTasks = ({ tasks, setTasks }: AddTasksProps) => {
       item: task,
       checked: false,
     };
-    const listTasks = [...tasks, addedTask];
+    const listTasks = [addedTask, ...tasks];
     syncTasksWithLocalStorage("tasks", listTasks, setTasks, listTasks);
   };
 

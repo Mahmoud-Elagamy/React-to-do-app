@@ -70,7 +70,7 @@ const TaskItem = ({
           aria-label={`Edit ${task.item} Task`}
           onClick={() => enterEditMode(task)}
         >
-          <SquarePen className="transition size-[14px]  hover:text-blue-600 focus:text-blue-600 md:size-5" />
+          <SquarePen className="transition size-4  hover:text-blue-600 focus:text-blue-600 md:size-5" />
         </button>
         <button
           className="opacity-0 group-hover/item:opacity-100 focus:opacity-100 "
@@ -78,7 +78,7 @@ const TaskItem = ({
           aria-label={`Delete ${task.item} Task`}
           onClick={() => handleDelete(task.id)}
         >
-          <Trash className="transition size-[14px]  hover:text-red-500 focus:text-red-500 md:size-5" />
+          <Trash className="transition size-4  hover:text-red-500 focus:text-red-500 md:size-5" />
         </button>
       </div>
     </reorder.Item>

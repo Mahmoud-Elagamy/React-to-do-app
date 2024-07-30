@@ -48,6 +48,7 @@
 html {
   background-color: var(--body-bg);
   transition: 150ms ease-in-out;
+  font-display: swap;
 }
 
 /* Custom Scrollbar */
