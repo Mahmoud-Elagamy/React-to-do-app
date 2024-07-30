@@ -85,7 +85,7 @@ const TasksList = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="horizontal-center text-xl"
+            className="horizontal-center text-base md:text-lg"
           >
             What's your plan for today?
           </motion.li>
