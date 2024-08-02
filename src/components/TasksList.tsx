@@ -10,21 +10,28 @@ import syncTasksWithLocalStorage from "./utils/syncTasksWithLocalStorage";
 
 // Types
 import { Task } from "../App";
+import { Filter } from "../App";
 export type ReorderType = typeof Reorder;
 type TasksListProps = {
   tasks: Task[];
+  filteredTasks: Task[];
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
   handleCheck: (id: number) => void;
   handleDelete: (id: number) => void;
   enterEditMode: (task: Task) => void;
+  currentFilter: Filter;
+  getFilteredTasksMessage: (filter: Filter) => string;
 };
 
 const TasksList = ({
   tasks,
+  filteredTasks,
   setTasks,
   handleCheck,
   handleDelete,
   enterEditMode,
+  currentFilter,
+  getFilteredTasksMessage,
 }: TasksListProps) => {
   const NumberOfTasksInProgress = () => {
     const tasksNumbers = tasks.filter((task: Task) => !task.checked).length;
@@ -47,7 +54,7 @@ const TasksList = ({
     syncTasksWithLocalStorage("tasks", newOrder, setTasks, newOrder);
   };
 
-  const listItems = tasks.map((task: Task) => (
+  const listItems = filteredTasks.map((task: Task) => (
     <TaskItem
       key={task.id}
       task={task}
@@ -69,9 +76,7 @@ const TasksList = ({
           tasks.length > 6 ? "overflow-y-auto" : "overflow-y-hidden"
         } md:max-h-[50vh]`}
       >
-        {tasks.length ? (
-          <AnimatePresence>{listItems}</AnimatePresence>
-        ) : (
+        {!tasks.length ? (
           <motion.li
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -80,6 +85,17 @@ const TasksList = ({
           >
             What's your plan for today?
           </motion.li>
+        ) : !filteredTasks.length ? (
+          <motion.li
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="horizontal-center text-base md:text-lg"
+          >
+            {getFilteredTasksMessage(currentFilter)}
+          </motion.li>
+        ) : (
+          <AnimatePresence>{listItems}</AnimatePresence>
         )}
       </Reorder.Group>
       <TaskStatus

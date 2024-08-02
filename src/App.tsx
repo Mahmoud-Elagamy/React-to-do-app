@@ -32,7 +32,7 @@ const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const filterTasks = (filter: Filter): Task[] => {
+  const filterTasks = (filter: Filter, tasks: Task[]): Task[] => {
     switch (filter) {
       case "All":
         return tasks;
@@ -47,6 +47,18 @@ const App = () => {
 
   const handleFilterChange = (filter: Filter) => {
     setCurrentFilter(filter);
+  };
+
+  // Function to get the message to display when no tasks match the current filter
+  const getFilteredTasksMessage = (filter: Filter): string => {
+    switch (filter) {
+      case "Active":
+        return "You have no active tasks. Great job!";
+      case "Completed":
+        return "No completed tasks yet. Keep going!";
+      default:
+        return "";
+    }
   };
 
   const toggleTheme = () => {
@@ -120,11 +132,14 @@ const App = () => {
             />
 
             <TasksList
-              tasks={filterTasks(currentFilter)}
+              tasks={tasks}
+              filteredTasks={filterTasks(currentFilter, tasks)}
               setTasks={setTasks}
               handleCheck={handleCheck}
               handleDelete={handleDelete}
               enterEditMode={enterEditMode}
+              currentFilter={currentFilter}
+              getFilteredTasksMessage={getFilteredTasksMessage}
             />
 
             <FilterTasks
