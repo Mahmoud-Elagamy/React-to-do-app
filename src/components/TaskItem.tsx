@@ -4,7 +4,7 @@ import audio from "../assets/audio/ting-sound-197759.mp3";
 
 // Types
 import { Task } from "../App";
-import { ReorderType } from "./TasksList";
+import { ReorderType } from "../App";
 type TaskItemProps = {
   task: Task;
   handleCheck: (id: number) => void;

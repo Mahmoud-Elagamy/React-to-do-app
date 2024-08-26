@@ -1,6 +1,3 @@
-// Framer Motion Library
-import { motion, AnimatePresence, Reorder } from "framer-motion";
-
 // Custom Components
 import TaskItem from "./TaskItem";
 import TaskStatus from "./TaskStatus";
@@ -11,7 +8,7 @@ import syncTasksWithLocalStorage from "./utils/syncTasksWithLocalStorage";
 // Types
 import { Task } from "../App";
 import { Filter } from "../App";
-export type ReorderType = typeof Reorder;
+import { MotionType, AnimatePresenceType, ReorderType } from "../App";
 type TasksListProps = {
   tasks: Task[];
   filteredTasks: Task[];
@@ -21,6 +18,9 @@ type TasksListProps = {
   enterEditMode: (task: Task) => void;
   currentFilter: Filter;
   getFilteredTasksMessage: (filter: Filter) => string;
+  motion: MotionType;
+  AnimatePresence: AnimatePresenceType;
+  Reorder: ReorderType;
 };
 
 const TasksList = ({
@@ -32,6 +32,9 @@ const TasksList = ({
   enterEditMode,
   currentFilter,
   getFilteredTasksMessage,
+  motion,
+  AnimatePresence,
+  Reorder,
 }: TasksListProps) => {
   const NumberOfTasksInProgress = () => {
     const tasksNumbers = tasks.filter((task: Task) => !task.checked).length;

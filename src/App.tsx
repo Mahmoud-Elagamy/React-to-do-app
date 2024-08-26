@@ -1,5 +1,8 @@
 import { useLayoutEffect, useState } from "react";
 
+// Framer Motion
+import { AnimatePresence, motion, Reorder } from "framer-motion";
+
 // Custom Components
 import BackgroundImage from "./components/BackgroundImage";
 import Header from "./components/Header";
@@ -20,6 +23,9 @@ export type Task = {
   checked: boolean;
 };
 export type Filter = "All" | "Active" | "Completed";
+export type AnimatePresenceType = typeof AnimatePresence;
+export type ReorderType = typeof Reorder;
+export type MotionType = typeof motion;
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>(() => {
@@ -113,42 +119,53 @@ const App = () => {
       {isLoading ? (
         <LoadingIndicator />
       ) : (
-        <main className="container max-w-[500px] text-sm md:text-lg">
-          <BackgroundImage isDarkMode={isDarkMode} />
+        <AnimatePresence>
+          <motion.main
+            className="container max-w-[500px] text-sm md:text-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          >
+            <BackgroundImage isDarkMode={isDarkMode} />
 
-          <section className="content py-10">
-            <h2 className="sr-only">To do List</h2>
+            <section className="content py-10">
+              <h2 className="sr-only">To do List</h2>
 
-            <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+              <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
 
-            <AddTasks tasks={tasks} setTasks={setTasks} />
+              <AddTasks tasks={tasks} setTasks={setTasks} />
 
-            <EditModal
-              editedTask={editedTask}
-              handleUpdate={handleUpdate}
-              isEditing={isEditing}
-              setIsEditing={setIsEditing}
-              closeEditModal={closeEditModal}
-            />
+              <EditModal
+                editedTask={editedTask}
+                handleUpdate={handleUpdate}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
+                closeEditModal={closeEditModal}
+              />
 
-            <TasksList
-              tasks={tasks}
-              filteredTasks={filterTasks(currentFilter, tasks)}
-              setTasks={setTasks}
-              handleCheck={handleCheck}
-              handleDelete={handleDelete}
-              enterEditMode={enterEditMode}
-              currentFilter={currentFilter}
-              getFilteredTasksMessage={getFilteredTasksMessage}
-            />
+              <TasksList
+                tasks={tasks}
+                filteredTasks={filterTasks(currentFilter, tasks)}
+                setTasks={setTasks}
+                handleCheck={handleCheck}
+                handleDelete={handleDelete}
+                enterEditMode={enterEditMode}
+                currentFilter={currentFilter}
+                getFilteredTasksMessage={getFilteredTasksMessage}
+                motion={motion}
+                AnimatePresence={AnimatePresence}
+                Reorder={Reorder}
+              />
 
-            <FilterTasks
-              handleFilterChange={handleFilterChange}
-              currentFilter={currentFilter}
-              setCurrentFilter={setCurrentFilter}
-            />
-          </section>
-        </main>
+              <FilterTasks
+                handleFilterChange={handleFilterChange}
+                currentFilter={currentFilter}
+                setCurrentFilter={setCurrentFilter}
+              />
+            </section>
+          </motion.main>
+        </AnimatePresence>
       )}
     </>
   );
