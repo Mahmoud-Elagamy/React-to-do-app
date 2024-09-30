@@ -30,7 +30,7 @@ const TaskItem = ({
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      className="group/item relative important-z *:transition cursor-grab  hover:bg-slate-50 has-[:checked]:bg-slate-100 dark:hover:bg-gray-900/20 has-[:checked]:dark:bg-gray-900/20"
+      className="group/item relative important-z *:transition cursor-grab active:cursor-grabbing hover:bg-slate-50 has-[:checked]:bg-slate-100 dark:hover:bg-gray-900/20 has-[:checked]:dark:bg-gray-900/20"
     >
       <label
         htmlFor={task.id.toString()}
