@@ -75,7 +75,7 @@ const TasksList = ({
         axis="y"
         values={tasks}
         onReorder={handleReordering}
-        className={`bg-white text-gray-500 dark:bg-[#25273D] divide-y dark:divide-slate-700 dark:text-ace transition rounded-t-[5px] *:p-3 *:flex *:items-center *:justify-between max-h-[45vh] overflow-x-hidden ${
+        className={`bg-white text-gray-500 dark:bg-[#25273D] divide-y dark:divide-slate-700 dark:text-ace  rounded-t-[5px] *:p-3 *:flex *:items-center *:justify-between max-h-[45vh] overflow-x-hidden ${
           tasks.length > 6 ? "overflow-y-auto" : "overflow-y-hidden"
         } md:max-h-[50vh]`}
       >
@@ -84,7 +84,7 @@ const TasksList = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="horizontal-center text-base md:text-lg"
+            className="horizontal-center text-sm md:text-base"
           >
             What's your plan for today?
           </motion.li>
@@ -93,7 +93,7 @@ const TasksList = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="horizontal-center text-base md:text-lg"
+            className="horizontal-center text-sm md:text-base"
           >
             {getFilteredTasksMessage(currentFilter)}
           </motion.li>

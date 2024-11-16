@@ -18,10 +18,6 @@
   li.horizontal-center {
     @apply justify-center;
   }
-
-  li.important-z {
-    z-index: 10 !important;
-  }
 }
 
 /* Custom Properties */
@@ -47,27 +43,5 @@
 
 html {
   background-color: var(--body-bg);
-  transition: 150ms ease-in-out;
   font-display: swap;
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-  transition: 150ms ease-in-out;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb);
-  border-radius: 20px;
-  border: 3px solid var(--scrollbar-track);
-  transition: 150ms ease-in-out;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--scrollbar-thumb-hover);
 }

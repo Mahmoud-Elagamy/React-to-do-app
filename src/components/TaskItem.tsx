@@ -30,7 +30,7 @@ const TaskItem = ({
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      className="group/item relative important-z *:transition cursor-grab active:cursor-grabbing hover:bg-slate-50 has-[:checked]:bg-slate-100 dark:hover:bg-gray-900/20 has-[:checked]:dark:bg-gray-900/20"
+      className="group/item relative !z-10 cursor-grab active:cursor-grabbing hover:bg-slate-50 has-[:checked]:bg-slate-100 dark:hover:bg-gray-900/20 has-[:checked]:dark:bg-gray-900/20"
     >
       <label
         htmlFor={task.id.toString()}
@@ -38,7 +38,7 @@ const TaskItem = ({
         title="Toggle between complete and incomplete"
       >
         <input
-          className="cursor-pointer appearance-none size-5 rounded-md border z-[-1] border-slate-300 checked:bg-gradient-to-br from-check-background1 to-check-background2 transition ring-sky-500 hover:ring-1"
+          className="cursor-pointer appearance-none size-4 md:size-5 rounded md:rounded-md border z-[-1] border-slate-300 checked:bg-gradient-to-br from-check-background1 to-check-background2 transition ring-sky-500 hover:ring-1"
           type="checkbox"
           name={task.item}
           id={task.id.toString()}
@@ -51,7 +51,7 @@ const TaskItem = ({
         {task.item}
       </label>
       <svg
-        className="absolute left-[16.5px] z-[-1] scale-0 peer-has-[:checked]:scale-100 "
+        className="absolute left-[14.5px] md:left-[16.5px] z-[-1] scale-0 peer-has-[:checked]:scale-100 "
         xmlns="http://www.w3.org/2000/svg"
         width="11"
         height="9"

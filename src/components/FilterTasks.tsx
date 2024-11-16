@@ -12,7 +12,7 @@ const FilterTasks = ({
   setCurrentFilter,
 }: FilterTasksProps) => {
   return (
-    <section className="flex justify-evenly items-center font-bold bg-white dark:bg-[#25273D] shadow-lg mt-4 p-2 rounded-md text-slate-500 dark:text-slate-400 text-sm transition  *:transition  md:text-base">
+    <section className="flex justify-evenly items-center font-bold bg-white dark:bg-[#25273D] shadow-lg mt-4 p-2 rounded-md text-slate-500 dark:text-slate-400 text-sm md:text-base">
       <h2 className="sr-only">Filter Tasks</h2>
       <button
         type="button"

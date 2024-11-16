@@ -48,11 +48,6 @@ const EditModal = ({
     }
   }, [isEditing]);
 
-  //* Need explanation here.
-  // if (!isEditing) {
-  //   return null;
-  // }
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
@@ -70,14 +65,14 @@ const EditModal = ({
     <div
       onClick={() => setIsEditing(false)}
       className={`
-     fixed inset-0 z-20 flex justify-center items-center transition-all duration-300 ease-in-out ${
+     fixed inset-0 z-20 flex justify-center items-center transition-colors duration-300 ease-in-out ${
        isEditing ? `visible bg-black/50` : `invisible`
      }
      `}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`bg-white/70 dark:bg-[#25273D]/70 rounded-md shadow-md p-3 transition duration-300 ease-in-out  ${
+        className={`bg-white/70 w-60 md:w-80 relative backdrop-blur-sm -top-28 dark:bg-[#25273D]/70 rounded-md shadow-md p-3  transition duration-300 ease-in-out  ${
           isEditing ? `scale-100 opacity-100` : `scale-125 opacity-0`
         }`}
         role="dialog"
@@ -89,7 +84,7 @@ const EditModal = ({
           title="Cancel"
           onClick={() => setIsEditing(false)}
         >
-          <XIcon className="transition duration-300 ease-in-out text-white size-5 hover:text-red-600" />
+          <XIcon className="transition-colors duration-300 ease-in-out text-white size-4 hover:text-red-600" />
         </button>
         <h2 className="dark:text-white mb-2">Update Task:</h2>
         <form
@@ -116,9 +111,9 @@ const EditModal = ({
             type="submit"
             aria-label={`Confirm edited task to now read ${text}`}
             title="Update Task"
-            className="bg-green-500 md:p-[1px] rounded-md transition duration-300 ease-in-out hover:bg-green-600"
+            className="bg-green-500 md:p-[1px] rounded-md transition-colors duration-300 ease-in-out hover:bg-green-600"
           >
-            <CheckIcon className="text-white size-5" />
+            <CheckIcon className="text-white size-4" />
           </button>
         </form>
       </div>

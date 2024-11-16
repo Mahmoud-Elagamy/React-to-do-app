@@ -9,7 +9,7 @@ function TaskStatus({
   deleteCompletedTasks,
 }: TaskStatusProps) {
   return (
-    <section className="text-slate-500 border-t dark:border-slate-700 flex items-center justify-between p-3 shadow-xl dark:text-slate-400 text-xs md:text-sm bg-white dark:bg-[#25273D] rounded-b-[5px] transition  sticky bottom-0 left-0 z-10">
+    <section className="text-slate-500 border-t dark:border-slate-700 flex items-center justify-between p-3 shadow-xl dark:text-slate-400 text-xs md:text-sm bg-white dark:bg-[#25273D] rounded-b-[5px] sticky bottom-0 left-0 z-10">
       <h2 className="sr-only">Task Status</h2>
       <pre>{NumberOfTasksInProgress()}</pre>
       <button
